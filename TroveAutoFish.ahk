@@ -1,6 +1,6 @@
 ﻿#WinActivateForce
 ; Script config. Do NOT change value here, might working inproperly!
-global Version := "v20200909"	; The version number of this script
+global Version := "v20200912"	; The version number of this script
 global FishAddress := "0xF1ABCC"	; The memory address for fishing
 
 ; Tooltip settings
@@ -51,7 +51,7 @@ Hotkey, %HK_AutoBoot%, L_AutoBoot
 Hotkey, %HK_AntiAFK%, L_AntiAFK
 Hotkey, %HK_Info%, L_Info
 Hotkey, %HK_Exit%, L_Exit
-Hotkey, %HK_hidewin%, L_hide
+;Hotkey, %HK_hidewin%, L_hide
 Return
 
 L_hide:
@@ -116,6 +116,10 @@ AutoFish:
 
         NatualPress("f", pid)	; Casting the line
         Sleep, 15000	; Check for bite after 15 seconds.  Players must wait for 20-30 seconds for the lure to start splashing in order to reel in a fish. Reduce the pole checking loop.
+        if (Flag_ABT)
+        {
+            Gosub ,AutoBootThrow  ;run 1 times for per fishing
+        }
         FishingTimeCount := 0
 
         Loop {
@@ -167,12 +171,12 @@ L_AutoBoot:	; Toggle auto boot throw
         if (Flag_ABT) {
             Flag_ABT := false
             UpdateTooltip()
-            SetTimer, AutoBootThrow, Off
+            ;SetTimer, AutoBootThrow, Off
         } else {
             Flag_ABT := true
             UpdateTooltip()
-            Gosub, AutoBootThrow
-            SetTimer, AutoBootThrow, %Interval_Boot%
+            ;Gosub, AutoBootThrow
+            ;SetTimer, AutoBootThrow, %Interval_Boot%
         }
     }
 Return
@@ -192,7 +196,7 @@ L_AntiAFK:	; Anti-AFK
 Return
 
 L_Info:	; Toggle tooltip
-    if (c) {
+    if (Flag_Tooltip) {
         Flag_Tooltip := false
         ToolTip
     } else {
@@ -213,11 +217,13 @@ AutoBootThrow:
             Random, DragSpeed, 4, 10	; Throw naturally
         }
         Imagesearch, TFoundX,TFoundY,0,0, A_ScreenWidth, A_ScreenHeight, *70 %TraserImgPath%
-        MouseClickDrag, Left, %OBFoundX%, %OBFoundY%, %TFoundX%, %TFoundY% ,%DragSpeed%
-        sleep , 500
-        Imagesearch, CFoundX,CFoundY,0,0, A_ScreenWidth, A_ScreenHeight, *70 %ClickImgPath%
-        Random, DragSpeed, 4, 10
-        MouseClick, Left, CFoundX, CFoundY, 1, DragSpeed
+        if(TFoundX){
+            MouseClickDrag, Left, %OBFoundX%, %OBFoundY%, %TFoundX%, %TFoundY% ,%DragSpeed%
+            sleep , 500
+            Imagesearch, CFoundX,CFoundY,0,0, A_ScreenWidth, A_ScreenHeight, *70 %ClickImgPath%
+            Random, DragSpeed, 4, 10
+            MouseClick, Left, CFoundX, CFoundY, 1, DragSpeed
+        }
     }
     Imagesearch, ABFoundX, ABFoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, *70 %ABootImgPath%
     if (errorlevel = 0) {
@@ -227,11 +233,13 @@ AutoBootThrow:
             Random, DragSpeed, 4, 10	; Throw naturally
         }
         Imagesearch, TFoundX,TFoundY,0,0, A_ScreenWidth, A_ScreenHeight, *70 %TraserImgPath%
-        MouseClickDrag, Left, %ABFoundX%, %ABFoundY%, %TFoundX%, %TFoundY% ,%DragSpeed%
-        sleep , 500
-        Imagesearch, CFoundX,CFoundY,0,0, A_ScreenWidth, A_ScreenHeight, *70 %ClickImgPath%
-        Random, DragSpeed, 4, 10
-        MouseClick, Left, CFoundX, CFoundY, 1, DragSpeed
+        if(TFoundX){
+            MouseClickDrag, Left, %ABFoundX%, %ABFoundY%, %TFoundX%, %TFoundY% ,%DragSpeed%
+            sleep , 500
+            Imagesearch, CFoundX,CFoundY,0,0, A_ScreenWidth, A_ScreenHeight, *70 %ClickImgPath%
+            Random, DragSpeed, 4, 10
+            MouseClick, Left, CFoundX, CFoundY, 1, DragSpeed
+        }
     }
 Return
 
@@ -362,10 +370,10 @@ UpdateTooltip() {
     TimerM := SubStr("0" . TimerM, -1)
     Timerinfo := "`nFishing Time - " . TimerH . ":" . TimerM . ":" . TimerS
 
-    HeaderTip := "<AutoFish>` " . Version . "`n Developer : Howar31 `n Updated by MiraculousB `n https://www.cnblogs.com/MiraculousB/"
+    HeaderTip := "<AutoFish>` " . Version . "`n Refer to Howar31 `n Updated by MiraculousB `n https://github.com/MiraculousB/Troveautofish"
     FuncTip := Info_Fish . Info_Boot . Info_AFK 
     StatusTip := "" . Info_Lure . Timerinfo
-    FooterTip := "" . Info_Tips . Info_hide . Info_Exit
+    FooterTip := "" . Info_Tips  . Info_Exit
 
     if (!Flag_Fishing) {
         ToolTip, %HeaderTip%%FuncTip%%FooterTip%, TooltipX, TooltipY

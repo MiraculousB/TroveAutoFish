@@ -5,6 +5,10 @@ Refer to  https://github.com/howar31/Trove-AHK-AutoFish#trove-ahk-autofish-1
 
 ### Latest Change
 
+**v20200912**
+*  Remove the function hiding windows , since fishing script can't work when hided.
+*  Optimize the autothrowboot function , it has some bug in v2015.
+
 **v20200911**
 * Add a new function that hiding current window advoid some situations when press ALT+TAB.
 
