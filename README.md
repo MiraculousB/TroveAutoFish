@@ -3,7 +3,7 @@ This is an AutoHotKey script for auto fishing in Trove.Since the original develo
 
 Refer to  https://github.com/howar31/Trove-AHK-AutoFish#trove-ahk-autofish-1
 
-### Latest Change
+### current updated
 
 **v20200912**
 *  Remove the function hiding windows , since fishing script can't work when hided.
@@ -17,13 +17,13 @@ Refer to  https://github.com/howar31/Trove-AHK-AutoFish#trove-ahk-autofish-1
 *  Updating all fishing address make sure it works.
 *  Solving thie problem that throw boots can't work since inventory UI were change.
 
+### Update record of original developer
 
 **v20150818**
 * [New] Long press F10 for FastABT Mode.  _(Thanks to [KylinWu](https://github.com/KylinWu))_
 * [New] Configurable settings for FastABT long press delay (The default is to press 0.5s to activate FastABT).  (FastABTDelay)
 * [New] Update Info Tooltip for FastABT Mode.
 
-### Recent Change
 **v20150817**
 > * [Update] Optimize ABT to lower the CPU usage.
 
