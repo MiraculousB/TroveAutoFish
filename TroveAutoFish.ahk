@@ -106,7 +106,6 @@ AutoFish:
         if (!Flag_Fishing)
             break
 
-        NatualPress("b", pid)	; Open backpack to prevent camera rotate while moving mouse, and also for ImageSearch to find the Old Boot
 
         LureCount := LureCount +1
         UpdateTooltip()
@@ -115,7 +114,7 @@ AutoFish:
         Gosub, AntiAFK
 
         NatualPress("f", pid)	; Casting the line
-        Sleep, 15000	; Check for bite after 15 seconds.  Players must wait for 20-30 seconds for the lure to start splashing in order to reel in a fish. Reduce the pole checking loop.
+        Sleep, 10000	; Check for bite after 15 seconds.  Players must wait for 20-30 seconds for the lure to start splashing in order to reel in a fish. Reduce the pole checking loop.
         if (Flag_ABT)
         {
             Gosub ,AutoBootThrow  ;run 1 times for per fishing
@@ -134,13 +133,12 @@ AutoFish:
             CaughtLava := ReadMemory(LavaAddress)
             CaughtChoco := ReadMemory(ChocoAddress)
             CaughtPlasma := ReadMemory(PlasmaAddress)
-
+            
             if (CaughtWater || CaughtLava || CaughtChoco || CaughtPlasma) {
                 ; Fish caught, reel in
                 NatualPress("f", pid)
                 Random, Wait, 2000, 3500 ; Wait a few seconds
                 Sleep, %Wait%
-                NatualPress("b", pid)
                 break
             }
 
@@ -148,7 +146,6 @@ AutoFish:
             Sleep, 1000
 
             if (FishingTimeCount++ > 20) {	; If waiting time is over 35 seconds, it must be a miss or something wrong.  Re-cast.
-                NatualPress("b", pid)
                 break
             }
 
@@ -209,6 +206,10 @@ L_Exit:	; Stop the script
 ExitApp
 
 AutoBootThrow:
+    Imagesearch, TFoundX,TFoundY,0,0, A_ScreenWidth, A_ScreenHeight, *70 %TraserImgPath%
+    if(!TFoundX){
+        NatualPress("b", pid)
+    }
     Imagesearch, OBFoundX, OBFoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, *70 %BootImgPath%
     if (errorlevel = 0) {
         if (GetKeyState(HK_AutoBoot, "P")) {
