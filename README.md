@@ -5,6 +5,9 @@ Refer to  https://github.com/howar31/Trove-AHK-AutoFish#trove-ahk-autofish-1
 
 ### current updated
 
+**v20200915**
+*  Completely fixed the Angle of view change during automatic boot drop
+
 **v20200912**
 *  Remove the function hiding windows , since fishing script can't work when hided.
 *  Optimize the autothrowboot function , it has some bug in v2015.
