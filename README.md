@@ -3,6 +3,10 @@ This is an AutoHotKey script for auto fishing in Trove.Since the original develo
 
 Refer to  https://github.com/howar31/Trove-AHK-AutoFish#trove-ahk-autofish-1
 
+### Future updates
+
+* I will update for GUI and make it vaild for more games .
+
 ### current updated
 
 **v20200915**
